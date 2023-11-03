@@ -37,13 +37,13 @@ class Encipher:
         :param encryptList:
         :return: ciphertext
         """
-        # 获取加密器对象
+        # 获取加密器对象序列
         encryptList = Encipher.getEncipherList(key, encryptList)
 
         ciphertext = plaintext
         # 使用加密器依次加密
-        for i in range(len(encryptList)):
-            ciphertext = encryptList[i].encrypt(ciphertext)
+        for encrypt in encryptList:
+            ciphertext = encrypt.encrypt(ciphertext)
         return ciphertext
 
     @staticmethod
@@ -59,6 +59,6 @@ class Encipher:
 
         plaintext = ciphertext
         # 使用加密器依次解密
-        for i in range(len(decryptList)):
-            plaintext = decryptList[i].decrypt(plaintext)
+        for decrypt in decryptList:
+            plaintext = decrypt.decrypt(plaintext)
         return plaintext
