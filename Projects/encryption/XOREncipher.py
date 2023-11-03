@@ -1,10 +1,14 @@
 from Encipher import Encipher
+import hashlib
 
 
 class XorEncipher(Encipher):
     def __init__(self, key):
         super().__init__(key)
-        self.key = key
+        # 对key重新编码，避免密钥与明文相似时密文为空
+        md5_machine =hashlib.md5()
+        md5_machine.update(key.encode("utf-8"))
+        self.key = str(md5_machine.hexdigest())
 
     # 将key长度扩充为text长度
     def extendKey(self, text):

@@ -12,7 +12,7 @@ class PermutationEncipher(Encipher):
     def encrypt(self, plaintext):
         # 将明文使用空格填充为长度为key的倍数的numpy数组
         plaintext = np.pad(np.array(list(plaintext)),
-                           (0, self.col - len(plaintext) % self.col),
+                           (0, 0 if (len(plaintext) % self.col == 0) else self.col - (len(plaintext) % self.col)),
                            mode='constant', constant_values=' ')
 
         # 将明文转换成n行，key长度列的矩阵
@@ -30,7 +30,7 @@ class PermutationEncipher(Encipher):
 
         # 按密钥的排序方式进行列置换
         ciphertextMatrix = ciphertextMatrix[:, self.getDecipherOrder()]
-        return ''.join(ciphertextMatrix.flatten()).rstrip()
+        return ''.join(ciphertextMatrix.flatten())
 
     # 获取加密序列
     def getEncipherOrder(self):

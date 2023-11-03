@@ -42,9 +42,8 @@ class Encipher:
 
         ciphertext = plaintext
         # 使用加密器依次加密
-        for encrypt in encryptList:
-            ciphertext = encrypt.encrypt(ciphertext)
-            print(ciphertext)
+        for i in range(len(encryptList)):
+            ciphertext = encryptList[i].encrypt(ciphertext)
         return ciphertext
 
     @staticmethod
@@ -60,7 +59,6 @@ class Encipher:
 
         plaintext = ciphertext
         # 使用加密器依次解密
-        for decrypt in decryptList:
-            plaintext = decrypt.decrypt(plaintext)
-            print(plaintext)
+        for i in range(len(decryptList)):
+            plaintext = decryptList[i].decrypt(plaintext)
         return plaintext
