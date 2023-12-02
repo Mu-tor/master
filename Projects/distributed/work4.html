@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Frontend</title>
+</head>
+<body>
+    <label for="operand1">X:</label>
+    <input type="number" id="operand1" placeholder="请输入X">
+
+    <label for="operand2">Y:</label>
+    <input type="number" id="operand2" placeholder="请输入Y">
+
+    <button onclick="calculate()">计算(X×Y)+(X÷Y)</button>
+
+    <div id="result"></div>
+    <div id="time"></div>
+
+    <script>
+        function calculate() {
+            const operand1 = document.getElementById('operand1').value;
+            const operand2 = document.getElementById('operand2').value;
+
+            // 检查输入是否是数字
+            if (!operand1 || !operand2 || isNaN(operand1) || isNaN(operand2)) {
+                alert('请输入正确的数字！');
+                return;
+            }
+            // 记录开始时间
+            const startTime = performance.now();
+
+            // 发送数据到后端进行计算
+            fetch('http://127.0.0.1:5001/calculate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    operand1: parseFloat(operand1),
+                    operand2: parseFloat(operand2),
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 计算用时
+                const endTime = performance.now();
+                const elapsedTime = endTime - startTime;
+                document.getElementById('result').innerText = `结果: ${data.result || data.error}`;
+                document.getElementById('time').innerText = `用时: ${elapsedTime.toFixed(2)} 毫秒`;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
